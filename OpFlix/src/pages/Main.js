@@ -1,8 +1,8 @@
-import logo from './src/assets/img/opflix-logo-verde.png'
-import menu from './src/assets/img/menu.png'
-import login from './src/assets/img/login.png'
-import filminho from './src/assets/img/filminho.png'
-import banner from './src/assets/img/banner-opflix.png'
+import logo from '../assets/img/opflix-logo-verde.png'
+import menu from '../assets/img/menu.png'
+import login from '../assets/img/login.png'
+import filminho from '../assets/img/filminho.png'
+import banner from '../assets/img/banner-opflix.png'
 import React, {Component} from 'react';
 import {
   SafeAreaView,
@@ -15,7 +15,7 @@ import {
   FlatList,
 } from 'react-native';
 
-class App extends Component {
+class Main extends Component {
 
   constructor() {
     super();
@@ -49,25 +49,7 @@ render() {
       <Text style={styles.informe}>Se informe acerca de{"\n"}dezenas de filmes</Text>
       <Image style={styles.login}source={login}></Image>
       <Text style={styles.informe}>Faça login e explore{"\n"}o mundo do cinema!</Text>
-      <Text style={styles.divisoria}>__________________</Text>
-      <FlatList
-        data={this.state.titulos}
-        keyExtractor={item => item.idTitulo}
-        renderItem={({item}) => (
-          <View>
-            <Text>Nome: {item.nome}</Text>
-            <Text>Sinópse: {item.sinopse}</Text>
-            <Text>Duração(horas): {item.duracao}</Text>
-            <Text>Data de Lançamento: {item.dataLancamento}</Text>
-            <Text>Classificação: {item.classificacao}</Text>
-            <Text>Categoria: {item.nomeCategoria}</Text>
-            <Text>Plataforma: {item.nomePlataforma}</Text>
-            <Text>Produtora: {item.nomeProdutora}</Text>
-            <Text>Tipo: {item.nomeTipoTitulo}</Text>
-            <Text style={styles.divisoria}>__________________</Text>
-          </View>
-        )}
-      />
+      
       </ScrollView>
     </View>
   );
@@ -80,10 +62,7 @@ const styles = StyleSheet.create({
   //   backgroundColor: '#006b66',
   // },
   
-  divisoria: {
-    color: '#006b66',
-    fontSize: 50,
-  },
+  
   logo: {
     marginTop: 10,
     marginLeft: 110,
@@ -121,6 +100,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default App;
-
-
+export default Main;
