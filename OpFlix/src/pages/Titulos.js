@@ -15,21 +15,34 @@ import {
 } from 'react-native';
 
 class Titulos extends Component{
+    static navigationOptions = {
+        tabBarIcon: () => (
+          <Image
+            source={require('../assets/img/filminho.png')}
+            style={styles.tabBarNavigatorIcon}
+          />
+        ),
+      };
 
     constructor() {
         super();
         this.state = {
           titulos: [],
           categoria: '',
-          lista: []
+          lista: [],
+          categorias: [],
         };
       }
+
+    componentDidMount(){
+        this._carregarCategorias()
+    }
 
     _trazerListaPoCategoria = () =>{
         fetch('http://192.168.3.201:5000/api/titulos/'+ this.state.categoria +'/b')
         .then(resposta => resposta.json())
         .then(data => this.setState({ lista: data}));
-      }
+      };
     
     _carregarTitulos = async () => {
         await fetch('http://192.168.3.201:5000/api/titulos')
@@ -37,6 +50,13 @@ class Titulos extends Component{
           .then(data => this.setState({titulos: data}))
           .catch(erro => console.warn(erro));
       };
+
+    _carregarCategorias = async () => {
+        await fetch ('http://192.168.3.201:5000/api/categorias')
+        .then(resposta => resposta.json())
+        .then(data => this.setState({categorias: data}))
+        .catch(erro => console.warn(erro));
+    }
     render(){
         return(
             <View>
@@ -45,6 +65,16 @@ class Titulos extends Component{
                 <View style={styles.banner}>
                     <Image style={styles.logo}source={logo}></Image>
                 </View>
+                <Text style={styles.tituloNome2}>Categorias</Text>
+                <FlatList 
+                data={this.state.categorias}
+                keyExtractor={item => item.idCategoria}
+                renderItem={({item}) => 
+                    <View>
+                        <Text style={styles.categorias}>{item.categoria}</Text>
+                        <Text style={styles.divisoria1}>___________________________________</Text>
+                    </View>
+                }></FlatList>
                 <View>
                     <Text style={styles.titulo}>Buscar título por catrgoria</Text>
             <TextInput
@@ -137,6 +167,11 @@ class Titulos extends Component{
     
 }
 const styles = StyleSheet.create({
+    categorias: {
+        color: '#006b66',
+        fontSize: 15,
+        textAlign: 'center',
+    },
     titulo: {
         color: '#006b66',
         textAlign: 'center',
@@ -168,6 +203,10 @@ const styles = StyleSheet.create({
     divisoria: {
         color: '#006b66',
         fontSize: 50,
+    },
+    divisoria1: {
+        color: '#006b66',
+        fontSize: 30,
     },
     informe: {
         textAlign: 'center',
@@ -217,5 +256,10 @@ const styles = StyleSheet.create({
         paddingRight: 5,
         
     },
+    tabBarNavigatorIcon: {
+        width: 25, 
+        height: 25, 
+        tintColor: 'white'
+    }
   });
 export default Titulos;

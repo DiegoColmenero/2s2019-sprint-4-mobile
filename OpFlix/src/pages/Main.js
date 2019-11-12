@@ -16,6 +16,14 @@ import {
 } from 'react-native';
 
 class Main extends Component {
+  static navigationOptions = {
+    tabBarIcon: () => (
+      <Image
+        source={require('../assets/img/filminho.png')}
+        style={styles.tabBarNavigatorIcon}
+      />
+    ),
+  };
 
   constructor() {
     super();
@@ -61,8 +69,11 @@ const styles = StyleSheet.create({
   // corFundo: {
   //   backgroundColor: '#006b66',
   // },
-  
-  
+  tabBarNavigatorIcon: {
+    width: 25, 
+    height: 25, 
+    tintColor: 'white'
+  },
   logo: {
     marginTop: 10,
     marginLeft: 110,
