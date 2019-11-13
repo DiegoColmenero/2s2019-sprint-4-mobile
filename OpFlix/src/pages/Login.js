@@ -37,6 +37,7 @@ import {
   AsyncStorage,
   StyleSheet,
   ImageBackground,
+  KeyboardAvoidingView,
 } from 'react-native';
 
 class Login extends Component {
@@ -49,14 +50,14 @@ class Login extends Component {
   constructor() {
     super();
     this.state = {
-      email: '',
-      senha: '',
+      email: 'erik@gmail.com',
+      senha: '123456',
     };
   }
 
   // enviar para a api
   _realizarLogin = async () => {
-    console.warn(this.state.email + ' - ' + this.state.senha);
+    // console.warn(this.state.email + ' - ' + this.state.senha);
     fetch('http://192.168.3.201:5000/api/login', {
       method: 'POST',
       headers: {
@@ -70,7 +71,7 @@ class Login extends Component {
     })
       .then(resposta => resposta.json())
       .then(data => this._irParaHome(data.token))
-      .catch(erro => console.warn('Vish irmao, tomou exposed...' + erro));
+      // .catch(erro => console.warn('Vish irmao, tomou exposed...' + erro));
   };
 
   _irParaHome = async tokenRecebido => {
@@ -91,6 +92,8 @@ class Login extends Component {
                </View>
 
                <ImageBackground source={background} style={{width: '100%', height: '100%'}}>
+
+                 <KeyboardAvoidingView  style={styles.container} behavior="padding" enabled>
     <View style={styles.loginArea}>
         <Text style={styles.titulos}>Efetuar{"\n"}Login</Text>
         <TextInput
@@ -101,15 +104,16 @@ class Login extends Component {
           />
         <TextInput
         style={styles.label}
-          placeholder="Senha"
-          secureTextEntry={true}
-          onChangeText={senha => this.setState({senha})}
-          value={this.state.senha}
-          />
+        placeholder="Senha"
+        secureTextEntry={true}
+        onChangeText={senha => this.setState({senha})}
+        value={this.state.senha}
+        />
         <TouchableOpacity onPress={this._realizarLogin} style={styles.botao}>
           <Text style={styles.botaoNome}>Login</Text>
         </TouchableOpacity>
           </View>
+        </KeyboardAvoidingView>
           </ImageBackground>
       </View>
     );
@@ -149,7 +153,7 @@ class Login extends Component {
         marginBottom: 25,
       },
       botao: {
-        backgroundColor: 'rgba(0, 107, 102, 2.5)',
+        backgroundColor: '#3EB35F',
         marginTop: 15,
         width: '70%',
         marginLeft: '15%',
@@ -159,7 +163,7 @@ class Login extends Component {
 		    borderTopRightRadius: 10,
       },
       botaoNome: {
-        color: '#3EB35F',
+        color: '#fff',
         fontSize: 25,
         textAlign: 'center',
         

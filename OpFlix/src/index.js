@@ -4,6 +4,7 @@ import { createStackNavigator } from 'react-navigation-stack'
 import MainScreen from './pages/Main'
 import TitulosScreen from './pages/Titulos'
 import LoginScreen from './pages/Login'
+import ProfileScreen from './pages/Profile'
 
 const AuthStack = createStackNavigator({Sign: { screen: LoginScreen }})
 
@@ -14,6 +15,9 @@ const MainNavigator = createBottomTabNavigator({
     Titulos: {
         screen: TitulosScreen,
     },
+    Profile: {
+        screen: ProfileScreen,
+    }
     
 },{
     initialRouteName: 'Main',

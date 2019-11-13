@@ -18,7 +18,7 @@ class Titulos extends Component{
     static navigationOptions = {
         tabBarIcon: () => (
           <Image
-            source={require('../assets/img/filminho.png')}
+            source={require('../assets/img/icons8-clapperboard-64.png')}
             style={styles.tabBarNavigatorIcon}
           />
         ),
@@ -31,11 +31,15 @@ class Titulos extends Component{
           categoria: '',
           lista: [],
           categorias: [],
+          plataforma: '',
+          lista2: [],
+          plataformas: []
         };
       }
 
     componentDidMount(){
-        this._carregarCategorias()
+        this._carregarCategorias(),
+        this._carregarPlataformas()
     }
 
     _trazerListaPoCategoria = () =>{
@@ -44,18 +48,29 @@ class Titulos extends Component{
         .then(data => this.setState({ lista: data}));
       };
     
+    _trazerListaPoPlataforma = () => {
+        fetch('http://192.168.3.201:5000/api/titulos/'+ this.state.plataforma + '/b') 
+        .then(resposta => resposta.json())
+        .then(data => this.setState({ lista2: data}));
+    };
+    _carregarPlataformas = async () => {
+        await fetch('http://192.168.3.201:5000/api/plataformas')
+        .then(resposta => resposta.json())
+        .then(data => this.setState({plataformas: data}))
+    }
+    
     _carregarTitulos = async () => {
         await fetch('http://192.168.3.201:5000/api/titulos')
           .then(resposta => resposta.json())
           .then(data => this.setState({titulos: data}))
-          .catch(erro => console.warn(erro));
+        //   .catch(erro => console.warn(erro));
       };
 
     _carregarCategorias = async () => {
         await fetch ('http://192.168.3.201:5000/api/categorias')
         .then(resposta => resposta.json())
         .then(data => this.setState({categorias: data}))
-        .catch(erro => console.warn(erro));
+        // .catch(erro => console.warn(erro));
     }
     render(){
         return(
@@ -66,13 +81,14 @@ class Titulos extends Component{
                     <Image style={styles.logo}source={logo}></Image>
                 </View>
                 <Text style={styles.tituloNome2}>Categorias</Text>
+                <Text style={styles.divisoria1}>______________________________</Text>
                 <FlatList 
                 data={this.state.categorias}
                 keyExtractor={item => item.idCategoria}
                 renderItem={({item}) => 
                     <View>
                         <Text style={styles.categorias}>{item.categoria}</Text>
-                        <Text style={styles.divisoria1}>___________________________________</Text>
+                        <Text style={styles.divisoria1}>______________________________</Text>
                     </View>
                 }></FlatList>
                 <View>
@@ -107,13 +123,62 @@ class Titulos extends Component{
 
                     </FlatList>
                 </View>
+
+
+                <Text style={styles.tituloNome2}>Plataformas</Text>
+                <Text style={styles.divisoria1}>______________________________</Text>
+                <FlatList 
+                data={this.state.plataformas}
+                keyExtractor={item => item.idPlataforma}
+                renderItem={({item}) => 
+                    <View>
+                        <Text style={styles.categorias}>{item.plataforma}</Text>
+                        <Text style={styles.divisoria1}>______________________________</Text>
+                    </View>
+                }></FlatList>
+                <View style={styles.fundoBuscar}>
+                    <Text style={styles.titulo}>Buscar título por plataforma</Text>
+            <TextInput
+            style={styles.inputCategoria}
+                placeholder="Plataforma"
+                onChangeText={plataforma => this.setState({plataforma})}
+                value={this.state.plataforma}
+            />
+                <TouchableOpacity 
+                style={styles.botao}
+                onPress={this._trazerListaPoPlataforma}>
+                <Text style={styles.tituloBotao}>Buscar</Text>
+                </TouchableOpacity>
+                </View>
+                <View>
+                    <FlatList
+                    data={this.state.lista2}
+                    keyExtractor={item => item.idTitulo}
+                    renderItem={({item}) => (
+                        <View>
+
+            
+                    <Text style={styles.tituloNome2}> {item.nome}</Text>
+                    <Text style={styles.divisoria}>__________________</Text>
+        
+                        </View>
+                    )
+
+                    }>
+
+                    </FlatList>
+                </View>
+
+
+
+                
                 
                 <TouchableOpacity
                 style={styles.botao}
                 color="#006b66"
                 onPress={this._carregarTitulos}
                 >
-                    <Text style={styles.tituloBotao}>Buscar títulos</Text>
+                    <Text style={styles.tituloBotao}>Listar títulos</Text>
                 </TouchableOpacity>
                 <FlatList
                 data={this.state.titulos}
@@ -168,6 +233,7 @@ class Titulos extends Component{
 }
 const styles = StyleSheet.create({
     categorias: {
+        marginTop:  25,
         color: '#006b66',
         fontSize: 15,
         textAlign: 'center',
@@ -257,9 +323,9 @@ const styles = StyleSheet.create({
         
     },
     tabBarNavigatorIcon: {
-        width: 25, 
-        height: 25, 
+        width: 30, 
+        height: 30, 
         tintColor: 'white'
-    }
+    },
   });
 export default Titulos;
