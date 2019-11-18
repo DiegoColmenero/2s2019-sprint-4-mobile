@@ -17,7 +17,7 @@ const MainNavigator = createBottomTabNavigator({
     },
     Profile: {
         screen: ProfileScreen,
-    }
+    },
     
 },{
     initialRouteName: 'Main',
@@ -25,7 +25,7 @@ const MainNavigator = createBottomTabNavigator({
       showIcon: true,
       showLabel: false,
       inactiveBackgroundColor: '#006b66',
-      activeBackgroundColor: '#006b52',
+      activeBackgroundColor: '#3EB35F',
       style: {
         width: '100%',
         height: 50,

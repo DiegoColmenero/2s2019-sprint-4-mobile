@@ -1,5 +1,7 @@
 import logo from '../assets/img/opflix-logo-verde.png'
 import React, {Component} from 'react';
+import { showMessage, hideMessage } from "react-native-flash-message";
+import FlashMessage from "react-native-flash-message";
 import {
   SafeAreaView,
   TouchableOpacity,
@@ -45,11 +47,19 @@ class Titulos extends Component{
     _trazerListaPoCategoria = () =>{
         fetch('http://192.168.3.201:5000/api/titulos/'+ this.state.categoria +'/b')
         .then(resposta => resposta.json())
-        .then(data => this.setState({ lista: data}));
-      };
-    
+        .then(data => this.setState({ lista: data}))
+        
+        
+    };
+    _showMessage = () => {
+        showMessage({
+            message: "Categoria não encontrada",
+            description: "Insira uma existente",
+            type: 'error',
+        })
+    }
     _trazerListaPoPlataforma = () => {
-        fetch('http://192.168.3.201:5000/api/titulos/'+ this.state.plataforma + '/b') 
+        fetch('http://192.168.3.201:5000/api/titulos/'+ this.state.plataforma + '/x') 
         .then(resposta => resposta.json())
         .then(data => this.setState({ lista2: data}));
     };
@@ -75,37 +85,65 @@ class Titulos extends Component{
     render(){
         return(
             <View>
+            <FlashMessage 
+            style={styles.mensagemErro}
+            duration={3000}
+            position="top" />
                 <ScrollView>
 
                 <View style={styles.banner}>
                     <Image style={styles.logo}source={logo}></Image>
                 </View>
+                <View style={styles.fundoCategorias}>
+
                 <Text style={styles.tituloNome2}>Categorias</Text>
                 <Text style={styles.divisoria1}>______________________________</Text>
                 <FlatList 
                 data={this.state.categorias}
                 keyExtractor={item => item.idCategoria}
                 renderItem={({item}) => 
-                    <View>
+                <View>
                         <Text style={styles.categorias}>{item.categoria}</Text>
                         <Text style={styles.divisoria1}>______________________________</Text>
                     </View>
                 }></FlatList>
-                <View>
+                </View>
+                <View style={styles.fundoCategorias}>
                     <Text style={styles.titulo}>Buscar título por catrgoria</Text>
             <TextInput
             style={styles.inputCategoria}
                 placeholder="Categoria"
                 onChangeText={categoria => this.setState({categoria})}
-                value={this.state.categoria}
+                value={this.state.categoria} 
+                
             />
                 <TouchableOpacity 
                 style={styles.botao}
-                onPress={this._trazerListaPoCategoria}>
+                onPress={this._trazerListaPoCategoria}
+                  
+                  >
                 <Text style={styles.tituloBotao}>Buscar</Text>
                 </TouchableOpacity>
                 </View>
-                <View>
+                <View style={styles.fundoCategorias}>
+                    
+                <FlatList
+                data={this.state.lista}
+                keyExtractor={item => item.idTitulo}
+                renderItem={({item}) => (
+                    <View>
+
+        
+                <Text style={styles.tituloNome2}> {item.nome}</Text>
+                <Text style={styles.divisoria}>__________________</Text>
+    
+                    </View>
+                )
+
+                }>
+
+                </FlatList>
+
                     <FlatList
                     data={this.state.lista}
                     keyExtractor={item => item.idTitulo}
@@ -143,10 +181,19 @@ class Titulos extends Component{
                 placeholder="Plataforma"
                 onChangeText={plataforma => this.setState({plataforma})}
                 value={this.state.plataforma}
+                
             />
                 <TouchableOpacity 
                 style={styles.botao}
-                onPress={this._trazerListaPoPlataforma}>
+                onPress={this._trazerListaPoPlataforma}
+                onPress={() => {
+                    /* HERE WE GONE SHOW OUR FIRST MESSAGE */
+                    showMessage({
+                        message: "Plataforma não encontrada",
+                        description: "Insira uma existente",
+                        type: "error",
+                      });
+                  }}>
                 <Text style={styles.tituloBotao}>Buscar</Text>
                 </TouchableOpacity>
                 </View>
@@ -232,6 +279,12 @@ class Titulos extends Component{
     
 }
 const styles = StyleSheet.create({
+    fundoCategorias: {
+        backgroundColor: '#e6ffd1'
+    },
+    mensagemErro: {
+        backgroundColor: 'rgba(204, 6, 6, 2)',
+    },
     categorias: {
         marginTop:  25,
         color: '#006b66',

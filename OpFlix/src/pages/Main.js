@@ -8,7 +8,7 @@ import vikings from '../assets/img/banner-vikings.png'
 import opflix from '../assets/img/banner-opflix.png'
 import joker from '../assets/img/banner-joker.png'
 import React, {Component} from 'react';
-import Carousel from 'react-native-snap-carousel'
+import Carousel from 'simple-carousel-react-native';
 import {
   SafeAreaView,
   StyleSheet,
@@ -21,15 +21,6 @@ import {
   Animated,
   Dimensions, 
 } from 'react-native';
-const deviceWidth = Dimensions.get('window').width
-const FIXED_BAR_WIDTH = 280
-const BAR_SPACE = 10
-const images = [
-  '../assets/img/banner-opflix.png',
-  '../assets/img/banner-viuvanegra.png',
-  '../assets/img/banner-vikings.png',
-  '../assets/img/banner-joker.png',
-]
 
 class Main extends Component {
   static navigationOptions = {
@@ -40,27 +31,12 @@ class Main extends Component {
       />
     ),
   };
-  numItems = images.length
-  itemWidth = (FIXED_BAR_WIDTH / this.numItems) - ((this.numItems - 1) * BAR_SPACE)
-  animVal = new Animated.Value(0)
-
-  
-
   constructor() {
     super();
     this.state = {
       titulos: [],
-      pagina_atual: 0
     };
   }
-
-  _renderItem ({item, index}) {
-    return (
-        <View style={styles.slide}>
-            <Text style={styles.title}>{ item.title }</Text>
-        </View>
-    );
-}
   componentDidMount() {
     this._carregarTitulos();
   }
@@ -74,92 +50,48 @@ class Main extends Component {
   };
 
 render() {
-  let imageArray = []
-    let barArray = []
-    images.forEach((image, i) => {
-      console.log(image, i)
-      const thisImage = (
-        <Image
-          key={`image${i}`}
-          source={{uri: image}}
-          style={{ width: deviceWidth }}
-        />
-      )
-      imageArray.push(thisImage)
-
-      const scrollBarVal = this.animVal.interpolate({
-        inputRange: [deviceWidth * (i - 1), deviceWidth * (i + 1)],
-        outputRange: [-this.itemWidth, this.itemWidth],
-        extrapolate: 'clamp',
-      })
-
-      const thisBar = (
-        <View
-          key={`bar${i}`}
-          style={[
-            styles.track,
-            {
-              width: this.itemWidth,
-              marginLeft: i === 0 ? 0 : BAR_SPACE,
-            },
-          ]}
-        >
-          <Animated.View
-
-            style={[
-              styles.bar,
-              {
-                width: this.itemWidth,
-                transform: [
-                  { translateX: scrollBarVal },
-                ],
-              },
-            ]}
-          />
-        </View>
-      )
-      barArray.push(thisBar)
-    })
+  
 
 
   return (
     <View>
-      <View
-        style={styles.container}
-        flex={1}
-      >
-        <ScrollView
-          horizontal
-          showsHorizontalScrollIndicator={false}
-          scrollEventThrottle={10}
-          pagingEnabled
-          onScroll={
-            Animated.event(
-              [{ nativeEvent: { contentOffset: { x: this.animVal } } }]
-            )
-          }
-        >
-
-          {imageArray}
-
-        </ScrollView>
-        <View
-          style={styles.barContainer}
-        >
-          {barArray}
-        </View>
-      </View>
         <ScrollView style={styles.corFundo}>
 
       <View style={styles.banner}>
       <Image style={styles.logo}source={logo}></Image>
       </View>
+      <Carousel
+        showScroll={ true }
+        showBubbles={ true }
+        height={250}
+        width={420}>
+        <View>
+          <Image style={styles.imagensCarossel} source={banner}></Image>
+          <Text style={styles.slogan1}>Só na OpFlix você fica dentro de tudo sobre os próximos lançamentos, suas respectivas produtoras, categorias, quando e onde estão disponíveis, e muito mais!</Text>
+        </View>
+        
+
+        <View>
+          <Image style={styles.imagensCarossel} source={vikings}></Image>
+          <Text style={styles.slogan}>A 6ª temporada de Vikings estará{"\n"}disponível dia 06/12 nos canais da History</Text>
+        </View>
+
+
+        <View>
+          <Image style={styles.imagensCarossel} source={viuva}></Image>
+          <Text style={styles.sloganviuva}>Viúva Negra{"\n"}vai aos cinemas em 2020</Text>
+        </View>
+        
+
+        <View>
+          <Image style={styles.imagensCarossel} source={joker}></Image>
+          <Text style={styles.sloganjoker}>The Joker já está disponível nos cinemas</Text>
+        </View>
+      </Carousel>
       {/* <Image style={styles.anuncio}source={banner}></Image>
       <Text style={styles.slogan} >Com Opflix, {"\n"}o impossível vira possível</Text> */}
       <Image style={styles.filminho}source={filminho}></Image>
       <Text style={styles.informe}>Se informe acerca de{"\n"}dezenas de filmes</Text>
-      <Image style={styles.login}source={login}></Image>
-      <Text style={styles.informe}>Faça login e explore{"\n"}o mundo do cinema!</Text>
       
       </ScrollView>
     </View>
@@ -190,12 +122,34 @@ const styles = StyleSheet.create({
   },
   slogan: {
     textAlign: 'center',
-    marginTop: -75,
+    marginTop: -60,
     color: '#3EB35F',
     fontSize: 20,
+    fontWeight: 'bold',
+  },
+  slogan1: {
+    textAlign: 'center',
+    marginTop: -75,
+    color: '#3EB35F',
+    fontSize: 15,
+    fontWeight: 'bold',
+  },
+  sloganjoker: {
+    textAlign: 'center',
+    marginTop: -50,
+    color: '#3EB35F',
+    fontSize: 20,
+    fontWeight: 'bold',
+  },
+  sloganviuva: {
+    textAlign: 'center',
+    marginTop: -60,
+    color: '#3EB35F',
+    fontSize: 20,
+    fontWeight: 'bold',
   },
   filminho: {
-    marginTop: 75,
+    marginTop: 55,
     height: 100,
     width: 100,
     marginLeft: 160,
@@ -212,29 +166,10 @@ const styles = StyleSheet.create({
     marginTop: 35,
     marginLeft: 160,
   },
-container: {
-  flex: 1,
-  alignItems: 'center',
-  justifyContent: 'center',
-},
-barContainer: {
-  position: 'absolute',
-  zIndex: 2,
-  top: 40,
-  flexDirection: 'row',
-},
-track: {
-  backgroundColor: '#ccc',
-  overflow: 'hidden',
-  height: 2,
-},
-bar: {
-  backgroundColor: '#5294d6',
-  height: 2,
-  position: 'absolute',
-  left: 0,
-  top: 0,
-},
+  imagensCarossel: {
+    height: 250,
+    width: 420,
+  },
 
 
 });
