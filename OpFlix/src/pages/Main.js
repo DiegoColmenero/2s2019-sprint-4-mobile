@@ -61,31 +61,50 @@ render() {
       <Image style={styles.logo}source={logo}></Image>
       </View>
       <Carousel
-        showScroll={ true }
-        showBubbles={ true }
-        height={250}
+        showScroll={ false }
+        showBubbles={ false }
+        height={280}
         width={420}>
         <View>
           <Image style={styles.imagensCarossel} source={banner}></Image>
           <Text style={styles.slogan1}>Só na OpFlix você fica dentro de tudo sobre os próximos lançamentos, suas respectivas produtoras, categorias, quando e onde estão disponíveis, e muito mais!</Text>
+          <View style={styles.bolinhas}>
+            <Text style={styles.bolaSelecionada}>❶</Text>
+            <Text style={styles.bolaNaoSelecionada}> ❷ ❸ ❹</Text>
+          </View>
         </View>
         
 
         <View>
           <Image style={styles.imagensCarossel} source={vikings}></Image>
           <Text style={styles.slogan}>A 6ª temporada de Vikings estará{"\n"}disponível dia 06/12 nos canais da History</Text>
+          <View style={styles.bolinhasVikings}>
+            <Text style={styles.bolaNaoSelecionada}>❶ </Text>
+            <Text style={styles.bolaSelecionada}>❷ </Text>
+            <Text style={styles.bolaNaoSelecionada}>❸ ❹</Text>
+          </View>
         </View>
 
 
         <View>
           <Image style={styles.imagensCarossel} source={viuva}></Image>
           <Text style={styles.sloganviuva}>Viúva Negra{"\n"}vai aos cinemas em 2020</Text>
+          <View style={styles.bolinhasViuva}>
+            <Text style={styles.bolaNaoSelecionada}>❶ ❷ </Text>
+            <Text style={styles.bolaSelecionada}>❸ </Text>
+            <Text style={styles.bolaNaoSelecionada}>❹</Text>
+            
+          </View>
         </View>
         
 
         <View>
           <Image style={styles.imagensCarossel} source={joker}></Image>
           <Text style={styles.sloganjoker}>The Joker já está disponível nos cinemas</Text>
+          <View style={styles.bolinhasJoker}>
+            <Text style={styles.bolaNaoSelecionada}>❶ ❷ ❸ </Text>
+            <Text style={styles.bolaSelecionada}>❹</Text>
+          </View>
         </View>
       </Carousel>
       {/* <Image style={styles.anuncio}source={banner}></Image>
@@ -104,6 +123,38 @@ const styles = StyleSheet.create({
   // corFundo: {
   //   backgroundColor: '#006b66',
   // },
+  bolinhas: {
+    marginTop: 15,
+    display: 'flex',
+    flexDirection: 'row',
+    marginLeft: '36%'
+  },
+  bolinhasJoker: {
+    marginTop: 20,
+    display: 'flex',
+    flexDirection: 'row',
+    marginLeft: '36%'
+  },
+  bolinhasViuva: {
+    marginTop: 5,
+    display: 'flex',
+    flexDirection: 'row',
+    marginLeft: '36%'
+  },
+  bolinhasVikings: {
+    marginTop: 5,
+    display: 'flex',
+    flexDirection: 'row',
+    marginLeft: '38%'
+  },
+  bolaSelecionada: {
+    color: '#3EB35F',
+    fontSize: 25,
+  },
+  bolaNaoSelecionada: {
+    color: '#006b66',
+    fontSize: 25,
+  },
   tabBarNavigatorIcon: {
     width: 30, 
     height: 30, 

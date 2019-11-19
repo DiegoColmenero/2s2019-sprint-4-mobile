@@ -1,277 +1,299 @@
 import logo from '../assets/img/opflix-logo-verde.png'
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import { showMessage, hideMessage } from "react-native-flash-message";
-import FlashMessage from "react-native-flash-message";
+import background from '../assets/img/fundoBuscarTitulos.jpg'
+import fundoCategorias from '../assets/img/escolhendoFilmes.jpg'
+import fundoPlataformas from '../assets/img/escolhendoFilme2.jpg'
 import {
-  SafeAreaView,
-  TouchableOpacity,
-  StyleSheet,
-  ScrollView,
-  View,
-  Text,
-  Image,
-  StatusBar,
-  FlatList,
-  Button,
-  TextInput,
+    TouchableOpacity,
+    StyleSheet,
+    ScrollView,
+    View,
+    Text,
+    Image,
+    FlatList,
+    TextInput,
+    ImageBackground,
 } from 'react-native';
 
-class Titulos extends Component{
+
+class Titulos extends Component {
     static navigationOptions = {
         tabBarIcon: () => (
-          <Image
-            source={require('../assets/img/icons8-clapperboard-64.png')}
-            style={styles.tabBarNavigatorIcon}
-          />
+            <Image
+                source={require('../assets/img/icons8-clapperboard-64.png')}
+                style={styles.tabBarNavigatorIcon}
+            />
         ),
-      };
+    };
 
     constructor() {
         super();
         this.state = {
-          titulos: [],
-          categoria: '',
-          lista: [],
-          categorias: [],
-          plataforma: '',
-          lista2: [],
-          plataformas: []
+            titulos: [],
+            categoria: '',
+            lista: [],
+            categorias: [],
+            plataforma: '',
+            lista2: [],
+            plataformas: [],
+            temValor: null,
+            itemValor2: null
         };
-      }
-
-    componentDidMount(){
-        this._carregarCategorias(),
-        this._carregarPlataformas()
     }
 
-    _trazerListaPoCategoria = () =>{
-        fetch('http://192.168.3.201:5000/api/titulos/'+ this.state.categoria +'/b')
-        .then(resposta => resposta.json())
-        .then(data => this.setState({ lista: data}))
-        
-        
+
+    _trazerListaPoCategoria = () => {
+        fetch('http://192.168.3.201:5000/api/titulos/' + this.state.categoria + '/b')
+            .then(resposta => resposta.json())
+            .then(data => {
+                this.setState({lista : data})
+                if (this.state.lista.length != 0) {
+                console.warn('jskajkdjk', data)
+            }else{
+                this.setState({temValor : 'Nenhuma categoria encotrada'})
+                console.warn('Nenhuma categoria encontrada', data)
+            }})
+            .catch(erro => console.warn(erro))
+            
+            
+
     };
-    _showMessage = () => {
-        showMessage({
-            message: "Categoria não encontrada",
-            description: "Insira uma existente",
-            type: 'error',
-        })
-    }
+    
     _trazerListaPoPlataforma = () => {
-        fetch('http://192.168.3.201:5000/api/titulos/'+ this.state.plataforma + '/x') 
+        fetch('http://192.168.3.201:5000/api/titulos/' + this.state.plataforma + '/x')
         .then(resposta => resposta.json())
-        .then(data => this.setState({ lista2: data}));
+            .then(data => {
+                this.setState({lista2 : data})
+                if (this.state.lista2.length != 0) {
+                console.warn('jskajkdjk', data)
+            }else{
+                this.setState({temValor2 : 'Nenhuma plataforma encotrada'})
+                console.warn('Nenhuma plataforma encontrada', data)
+            }})
+            .catch(erro => console.warn(erro))
+            
     };
     _carregarPlataformas = async () => {
         await fetch('http://192.168.3.201:5000/api/plataformas')
-        .then(resposta => resposta.json())
-        .then(data => this.setState({plataformas: data}))
+            .then(resposta => resposta.json())
+            .then(data => this.setState({ plataformas: data }))
     }
-    
+
     _carregarTitulos = async () => {
         await fetch('http://192.168.3.201:5000/api/titulos')
-          .then(resposta => resposta.json())
-          .then(data => this.setState({titulos: data}))
+            .then(resposta => resposta.json())
+            .then(data => this.setState({ titulos: data }))
         //   .catch(erro => console.warn(erro));
-      };
+    };
 
     _carregarCategorias = async () => {
-        await fetch ('http://192.168.3.201:5000/api/categorias')
-        .then(resposta => resposta.json())
-        .then(data => this.setState({categorias: data}))
+        await fetch('http://192.168.3.201:5000/api/categorias')
+            .then(resposta => resposta.json())
+            .then(data => this.setState({ categorias: data }))
         // .catch(erro => console.warn(erro));
     }
-    render(){
-        return(
+    render() {
+        return (
             <View>
-            <FlashMessage 
-            style={styles.mensagemErro}
-            duration={3000}
-            position="top" />
                 <ScrollView>
-
-                <View style={styles.banner}>
-                    <Image style={styles.logo}source={logo}></Image>
-                </View>
-                <View style={styles.fundoCategorias}>
-
-                <Text style={styles.tituloNome2}>Categorias</Text>
-                <Text style={styles.divisoria1}>______________________________</Text>
-                <FlatList 
-                data={this.state.categorias}
-                keyExtractor={item => item.idCategoria}
-                renderItem={({item}) => 
-                <View>
-                        <Text style={styles.categorias}>{item.categoria}</Text>
-                        <Text style={styles.divisoria1}>______________________________</Text>
+                    <View style={styles.banner}>
+                        <Image style={styles.logo} source={logo}></Image>
                     </View>
-                }></FlatList>
-                </View>
-                <View style={styles.fundoCategorias}>
-                    <Text style={styles.titulo}>Buscar título por catrgoria</Text>
-            <TextInput
-            style={styles.inputCategoria}
-                placeholder="Categoria"
-                onChangeText={categoria => this.setState({categoria})}
-                value={this.state.categoria} 
                 
-            />
-                <TouchableOpacity 
-                style={styles.botao}
-                onPress={this._trazerListaPoCategoria}
-                  
-                  >
-                <Text style={styles.tituloBotao}>Buscar</Text>
-                </TouchableOpacity>
-                </View>
-                <View style={styles.fundoCategorias}>
-                    
-                <FlatList
-                data={this.state.lista}
-                keyExtractor={item => item.idTitulo}
-                renderItem={({item}) => (
-                    <View>
 
-        
-                <Text style={styles.tituloNome2}> {item.nome}</Text>
-                <Text style={styles.divisoria}>__________________</Text>
-    
-                    </View>
-                )
-
-                }>
-
-                </FlatList>
-
-                    <FlatList
-                    data={this.state.lista}
-                    keyExtractor={item => item.idTitulo}
-                    renderItem={({item}) => (
-                        <View>
-
-            
-                    <Text style={styles.tituloNome2}> {item.nome}</Text>
-                    <Text style={styles.divisoria}>__________________</Text>
-        
-                        </View>
-                    )
-
-                    }>
-
-                    </FlatList>
-                </View>
-
-
-                <Text style={styles.tituloNome2}>Plataformas</Text>
-                <Text style={styles.divisoria1}>______________________________</Text>
-                <FlatList 
-                data={this.state.plataformas}
-                keyExtractor={item => item.idPlataforma}
-                renderItem={({item}) => 
-                    <View>
-                        <Text style={styles.categorias}>{item.plataforma}</Text>
-                        <Text style={styles.divisoria1}>______________________________</Text>
-                    </View>
-                }></FlatList>
-                <View style={styles.fundoBuscar}>
-                    <Text style={styles.titulo}>Buscar título por plataforma</Text>
-            <TextInput
-            style={styles.inputCategoria}
-                placeholder="Plataforma"
-                onChangeText={plataforma => this.setState({plataforma})}
-                value={this.state.plataforma}
-                
-            />
-                <TouchableOpacity 
-                style={styles.botao}
-                onPress={this._trazerListaPoPlataforma}
-                onPress={() => {
-                    /* HERE WE GONE SHOW OUR FIRST MESSAGE */
-                    showMessage({
-                        message: "Plataforma não encontrada",
-                        description: "Insira uma existente",
-                        type: "error",
-                      });
-                  }}>
-                <Text style={styles.tituloBotao}>Buscar</Text>
-                </TouchableOpacity>
-                </View>
-                <View>
-                    <FlatList
-                    data={this.state.lista2}
-                    keyExtractor={item => item.idTitulo}
-                    renderItem={({item}) => (
-                        <View>
-
-            
-                    <Text style={styles.tituloNome2}> {item.nome}</Text>
-                    <Text style={styles.divisoria}>__________________</Text>
-        
-                        </View>
-                    )
-
-                    }>
-
-                    </FlatList>
-                </View>
-
-
-
-                
-                
                 <TouchableOpacity
-                style={styles.botao}
-                color="#006b66"
-                onPress={this._carregarTitulos}
-                >
-                    <Text style={styles.tituloBotao}>Listar títulos</Text>
-                </TouchableOpacity>
-                <FlatList
-                data={this.state.titulos}
-                keyExtractor={item => item.idTitulo}
-                renderItem={({item}) => (
-            <View>
-                <View style={styles.nome}>
-                    <Text style={styles.tituloNome}>Nome:</Text>
-                    <Text style={styles.dadoNome}> {item.nome}</Text>
-                </View>
-            <View style={styles.sinopse}>
-                    <Text style={styles.tituloNome}>Sinópse:</Text>
-                    <Text style={styles.dadoSinopse}> {item.sinopse}</Text>
-            </View>
-            <View style={styles.nome}>
-                    <Text style={styles.tituloNome}>Duração(horas):</Text>
-                    <Text style={styles.dadoNome}> {item.duracao}</Text>
-            </View>
-            <View style={styles.nome}>
-                    <Text style={styles.tituloNome}>Data de Lançamento:</Text>
-                    <Text style={styles.dadoNome}> {item.dataLancamento}</Text>
-            </View>
-            <View style={styles.nome}>
-                    <Text style={styles.tituloNome}>Classificação:</Text>
-                    <Text style={styles.dadoNome}> {item.classificacao}</Text>
-            </View>
-            <View style={styles.nome}>
-                    <Text style={styles.tituloNome}>Categoria:</Text>
-                    <Text style={styles.dadoNome}> {item.nomeCategoria}</Text>
-            </View>
-            <View style={styles.nome}>
-                    <Text style={styles.tituloNome}>Plataforma:</Text>
-                    <Text style={styles.dadoNome}> {item.nomePlataforma}</Text>
-            </View>
-            <View style={styles.nome}>
-                    <Text style={styles.tituloNome}>Produtora:</Text>
-                    <Text style={styles.dadoNome}> {item.nomeProdutora}</Text>
-            </View>
-            <View style={styles.nome}>
-                    <Text style={styles.tituloNome}>Tipo:</Text>
-                    <Text style={styles.dadoNome}> {item.nomeTipoTitulo}</Text>
-            </View>
-            <Text style={styles.divisoria}>__________________</Text>
-          </View>
-        )}
-        />
+                        style={styles.botaoFundo}
+                        color="#006b66"
+                        onPress={this._carregarTitulos}
+                    >
+                        <Text style={styles.tituloBotao}>Listar{"\n"}títulos</Text>
+                    </TouchableOpacity>
+                
+                    <FlatList
+                        data={this.state.titulos}
+                        keyExtractor={item => item.idTitulo}
+                        renderItem={({ item }) => (
+                            <View>
+                                <View style={styles.nome}>
+                                    <Text style={styles.tituloNome}>Nome:</Text>
+                                    <Text style={styles.dadoNome}> {item.nome}</Text>
+                                </View>
+                                <View style={styles.sinopse}>
+                                    <Text style={styles.tituloNome}>Sinópse:</Text>
+                                    <Text style={styles.dadoSinopse}> {item.sinopse}</Text>
+                                </View>
+                                <View style={styles.nome}>
+                                    <Text style={styles.tituloNome}>Duração(horas):</Text>
+                                    <Text style={styles.dadoNome}> {item.duracao}</Text>
+                                </View>
+                                <View style={styles.nome}>
+                                    <Text style={styles.tituloNome}>Data de Lançamento:</Text>
+                                    <Text style={styles.dadoNome}> {item.dataLancamento}</Text>
+                                </View>
+                                <View style={styles.nome}>
+                                    <Text style={styles.tituloNome}>Classificação:</Text>
+                                    <Text style={styles.dadoNome}> {item.classificacao}</Text>
+                                </View>
+                                <View style={styles.nome}>
+                                    <Text style={styles.tituloNome}>Categoria:</Text>
+                                    <Text style={styles.dadoNome}> {item.nomeCategoria}</Text>
+                                </View>
+                                <View style={styles.nome}>
+                                    <Text style={styles.tituloNome}>Plataforma:</Text>
+                                    <Text style={styles.dadoNome}> {item.nomePlataforma}</Text>
+                                </View>
+                                <View style={styles.nome}>
+                                    <Text style={styles.tituloNome}>Produtora:</Text>
+                                    <Text style={styles.dadoNome}> {item.nomeProdutora}</Text>
+                                </View>
+                                <View style={styles.nome}>
+                                    <Text style={styles.tituloNome}>Tipo:</Text>
+                                    <Text style={styles.dadoNome}> {item.nomeTipoTitulo}</Text>
+                                </View>
+                                <Text style={styles.divisoria}>__________________</Text>
+                            </View>
+                        )}
+                    />
+                   
+
+                    <TouchableOpacity
+                            style={styles.botaoFundo}
+                            color="#006b66"
+                            onPress={this._carregarCategorias}
+                        >
+                            <Text style={styles.tituloBotao}>Listar{"\n"}categorias</Text>
+                        </TouchableOpacity>
+                    
+                        <FlatList
+                            data={this.state.categorias}
+                            keyExtractor={item => item.idCategoria}
+                            renderItem={({ item }) => (
+                                <View>
+                                    <Text style={styles.categorias}>{item.categoria}</Text>
+                                    <Text style={styles.divisoria1}>______________________________</Text>
+                                </View>
+                            )}
+                        />
+                        
+
+                            <TouchableOpacity
+                                    style={styles.botaoFundo}
+                                    color="#006b66"
+                                    onPress={this._carregarPlataformas}
+                                >
+                                    <Text style={styles.tituloBotao}>Listar{"\n"}plataformas</Text>
+                                </TouchableOpacity>
+                            
+                                <FlatList
+                                    data={this.state.plataformas}
+                                    keyExtractor={item => item.idPlataforma}
+                                    renderItem={({ item }) => (
+                                        <View>
+                                            <Text style={styles.categorias}>{item.plataforma}</Text>
+                                            <Text style={styles.divisoria1}>______________________________</Text>
+                                        </View>
+                                    )}
+                                />
+
+                    <ImageBackground source={fundoCategorias} style={{width: 420, height: 300}}>
+
+                            <View style={styles.buscarCategoria}>
+
+                        <Text style={styles.tituloBuscarCategoria}>Buscar título por catrgoria</Text>
+                        <TextInput
+                            style={styles.inputCategoria}
+                            placeholder="Categoria"
+                            onChangeText={categoria => this.setState({ categoria })}
+                            value={this.state.categoria}
+
+                        />
+                        <TouchableOpacity
+                            style={styles.botaoFundoCategoria}
+                            onPress={this._trazerListaPoCategoria}
+
+                        >
+                            <Text style={styles.tituloBotaoCategoria}>Buscar</Text>
+                        </TouchableOpacity>
+                        <Text style={styles.cor}>{this.state.temValor}</Text>
+                            </View>
+                    </ImageBackground>
+            
+                    <View style={styles.fundoCategorias}>
+
+
+                        <FlatList
+                            data={this.state.lista}
+                            keyExtractor={item => item.idTitulo}
+                            renderItem={({ item }) => (
+                                <View>
+
+
+                                    <Text style={styles.tituloNome2}> {item.nome}</Text>
+                                    <Text style={styles.divisoria}>__________________</Text>
+
+                                </View>
+                            )
+
+                            }>
+
+                        </FlatList>
+                        <View style={styles.ajeitar}>
+
+                        <ImageBackground source={fundoPlataformas} style={{width: 420, height: 300}}>
+
+                            <View style={styles.buscarCategoria}>
+
+                        <Text style={styles.tituloBuscarCategoria}>Buscar título por plataforma</Text>
+                        <Text style={styles.cor}>{this.state.temValor2}</Text>
+                        <TextInput
+                            style={styles.inputPlataforma}
+                            placeholder="Plataforma"
+                            onChangeText={plataforma => this.setState({ plataforma })}
+                            value={this.state.plataforma}
+                            
+                            />
+                        <TouchableOpacity
+                            style={styles.botaoFundoCategoria}
+                            onPress={this._trazerListaPoPlataforma}
+                            
+                            >
+                            <Text style={styles.tituloBotaoCategoria}>Buscar</Text>
+                        </TouchableOpacity>
+                            </View>
+                    </ImageBackground>
+                            </View>
+                            
+            
+                    <View style={styles.fundoCategorias}>
+
+
+                        <FlatList
+                            data={this.state.lista2}
+                            keyExtractor={item => item.idTitulo}
+                            renderItem={({ item }) => (
+                                <View>
+
+
+                                    <Text style={styles.tituloNome2}> {item.nome}</Text>
+                                    <Text style={styles.divisoria}>__________________</Text>
+
+                                </View>
+                            )
+
+                            }>
+
+                        </FlatList>
+                        
+                    
+
+                    </View>
+
+        </View>
+
+                    
+                    
+
                 </ScrollView>
             </View>
         );
@@ -279,14 +301,20 @@ class Titulos extends Component{
     
 }
 const styles = StyleSheet.create({
-    fundoCategorias: {
-        backgroundColor: '#e6ffd1'
+    ajeitar: {
+        marginTop: 60,
     },
-    mensagemErro: {
-        backgroundColor: 'rgba(204, 6, 6, 2)',
+    buscarCategoria: {
+        backgroundColor: 'rgba(0, 107, 102,0.3)',
+        height: 300,
+    },
+    cor: {
+        color: '#ff0000',
+        textAlign: 'center',
+        fontSize: 30,
     },
     categorias: {
-        marginTop:  25,
+        marginTop: 25,
         color: '#006b66',
         fontSize: 15,
         textAlign: 'center',
@@ -296,20 +324,43 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         fontSize: 30,
         marginTop: 30,
+        fontWeight: 'bold',
 
-    },  
-    inputCategoria:{
+    },
+    tituloBuscarCategoria: {
+        color: '#fff',
+        textAlign: 'center',
+        fontSize: 30,
+        fontWeight: 'bold',
+        backgroundColor: 'rgba(0, 107, 102,0.7)'
+
+    },
+    inputCategoria: {
         fontSize: 25,
-        backgroundColor: '#cfcece',
+        backgroundColor: 'rgba(207, 206, 206,0.8)',
         textAlign: 'center',
         marginBottom: -70,
         width: '60%',
         marginLeft: 80,
         borderBottomLeftRadius: 10,
-		borderBottomRightRadius: 10,
-		borderTopLeftRadius: 10,
+        borderBottomRightRadius: 10,
+        borderTopLeftRadius: 10,
         borderTopRightRadius: 10,
-        marginTop: 20,
+        marginTop: 140,
+
+    },
+    inputPlataforma: {
+        fontSize: 25,
+        backgroundColor: 'rgba(207, 206, 206,0.8)',
+        textAlign: 'center',
+        marginBottom: -70,
+        width: '60%',
+        marginLeft: 80,
+        borderBottomLeftRadius: 10,
+        borderBottomRightRadius: 10,
+        borderTopLeftRadius: 10,
+        borderTopRightRadius: 10,
+        marginTop: 100,
 
     },
     logo: {
@@ -336,7 +387,7 @@ const styles = StyleSheet.create({
     nome: {
         display: 'flex',
         flexDirection: 'row',
-        
+
     },
     tituloNome: {
         fontSize: 25,
@@ -347,6 +398,7 @@ const styles = StyleSheet.create({
         color: '#006b66',
         textAlign: 'center',
         marginTop: 20,
+        fontWeight: 'bold',
     },
     dadoNome: {
         fontSize: 25,
@@ -356,14 +408,45 @@ const styles = StyleSheet.create({
         color: '#3EB35F',
         fontSize: 20,
     },
+    botaoFundo: {
+        marginTop: 70,
+        backgroundColor: "rgba(0, 107, 102, 1)",
+        marginLeft: 80,
+        width: '60%',
+        borderBottomLeftRadius: 10,
+        borderBottomRightRadius: 10,
+        borderTopLeftRadius: 10,
+        borderTopRightRadius: 10,
+        marginBottom: 70,
+    },
+    botaoFundoCategoria: {
+        marginTop: 70,
+        backgroundColor: "rgba(62, 179, 95,0.65)",
+        marginLeft: 80,
+        width: '60%',
+        borderBottomLeftRadius: 10,
+        borderBottomRightRadius: 10,
+        borderTopLeftRadius: 10,
+        borderTopRightRadius: 10,
+    },
+    botaoFundoPlataforma: {
+        marginTop: 40,
+        backgroundColor: "rgba(62, 179, 95,0.65)",
+        marginLeft: 80,
+        width: '60%',
+        borderBottomLeftRadius: 10,
+        borderBottomRightRadius: 10,
+        borderTopLeftRadius: 10,
+        borderTopRightRadius: 10,
+    },
     botao: {
         marginTop: 70,
         backgroundColor: "#006b66",
         marginLeft: 80,
         width: '60%',
         borderBottomLeftRadius: 10,
-		borderBottomRightRadius: 10,
-		borderTopLeftRadius: 10,
+        borderBottomRightRadius: 10,
+        borderTopLeftRadius: 10,
         borderTopRightRadius: 10,
         marginBottom: 70,
     },
@@ -373,12 +456,20 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         paddingLeft: 5,
         paddingRight: 5,
-        
+
+    },
+    tituloBotaoCategoria: {
+        fontSize: 40,
+        color: '#fff',
+        textAlign: 'center',
+        paddingLeft: 5,
+        paddingRight: 5,
+
     },
     tabBarNavigatorIcon: {
-        width: 30, 
-        height: 30, 
+        width: 30,
+        height: 30,
         tintColor: 'white'
     },
-  });
+});
 export default Titulos;
