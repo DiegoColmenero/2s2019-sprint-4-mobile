@@ -5,8 +5,8 @@ import MainScreen from './pages/Main'
 import TitulosScreen from './pages/Titulos'
 import LoginScreen from './pages/Login'
 import ProfileScreen from './pages/Profile'
-
-const AuthStack = createStackNavigator({Sign: { screen: LoginScreen }})
+import CadastroScreen from './pages/Cadastro'
+const AuthStack = createStackNavigator({Sign: { screen: LoginScreen }, Cadastro: {screen: CadastroScreen}})
 
 const MainNavigator = createBottomTabNavigator({
     Main: {

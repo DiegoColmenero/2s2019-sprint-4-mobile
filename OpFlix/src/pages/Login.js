@@ -1,52 +1,14 @@
-// import logo from '../assets/img/opflix-logo-verde.png'
-// import React, {Component} from 'react';
-// import {
-//   SafeAreaView,
-//   StyleSheet,
-//   ScrollView,
-//   View,
-//   Text,
-//   Image,
-//   StatusBar,
-//   FlatList,
-// } from 'react-native';
-
-// class Login extends Component{
-//     render(){
-//         return(
-//             <View>
-//                 <View style={styles.banner}>
-//                     <Image style={styles.logo}source={logo}></Image>
-//                 </View>
-//             </View>
-//         );
-//     }
-    
-// }
-
-// export default Login;
 import React, {Component} from 'react';
 import logo from '../assets/img/opflix-logo-verde.png'
 import background from '../assets/img/fundo-login.jpg'
-import {
-  Text,
-  View,
-  Image,
-  TextInput,
-  TouchableOpacity,
-  AsyncStorage,
-  StyleSheet,
-  ImageBackground,
-  KeyboardAvoidingView,
-} from 'react-native';
+import {Text,View,Image,TextInput,TouchableOpacity,AsyncStorage,StyleSheet,ImageBackground, KeyboardAvoidingView,} from 'react-native';
 
 class Login extends Component {
   static navigationOptions = {
     header: null,
   };
 
-  // constructor
-  // state
+
   constructor() {
     super();
     this.state = {
@@ -54,10 +16,11 @@ class Login extends Component {
       senha: '123456',
     };
   }
+  _redirect = async () => {
+    this.props.navigation.navigate('Cadastro')
+  };
 
-  // enviar para a api
   _realizarLogin = async () => {
-    // console.warn(this.state.email + ' - ' + this.state.senha);
     fetch('http://192.168.3.201:5000/api/login', {
       method: 'POST',
       headers: {
@@ -71,7 +34,7 @@ class Login extends Component {
     })
       .then(resposta => resposta.json())
       .then(data => this._irParaHome(data.token))
-      // .catch(erro => console.warn('Vish irmao, tomou exposed...' + erro));
+      .catch(erro => console.warn('Vish irmao, tomou exposed...' + erro));
   };
 
   _irParaHome = async tokenRecebido => {
@@ -112,6 +75,11 @@ class Login extends Component {
         <TouchableOpacity onPress={this._realizarLogin} style={styles.botao}>
           <Text style={styles.botaoNome}>Login</Text>
         </TouchableOpacity>
+        <Text style={styles.textosCadastrese}>Não possui conta?</Text>
+        <TouchableOpacity onPress={this._redirect}>
+
+        <Text style={styles.textoCadastrese}>Cadastre-se agora!</Text>
+        </TouchableOpacity>
           </View>
         </KeyboardAvoidingView>
           </ImageBackground>
@@ -120,6 +88,18 @@ class Login extends Component {
   }
 }
     const styles = StyleSheet.create({
+      textosCadastrese: {
+        color: '#3EB35F',
+        textAlign: 'center',
+        marginTop: 5,
+        fontSize: 15
+      },
+      textoCadastrese: {
+        color: '#3EB35F',
+        fontWeight: 'bold',
+        textAlign: 'center',
+        fontSize: 20,
+      },
       logo: {
         marginTop: 10,
         marginLeft: 110,
