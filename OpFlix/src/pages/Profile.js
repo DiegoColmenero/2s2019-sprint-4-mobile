@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import logo from '../assets/img/opflix-logo-verde.png'
 
 import {
+  ActivityIndicator,
   View,
   Text,
   Image,
@@ -23,64 +24,52 @@ class Profile extends Component {
   static navigationOptions = {
     tabBarIcon: () => (
       <Image
-        source={require('../assets/img/icons8-user-30.png')}
+        source={require('../assets/img/4115235-exit-logout-sign-out_114030.png')}
         style={styles.tabBarNavigatorIcon}
       />
     ),
   };
-  componentDidMount() {
-    this._buscarDadosDoStorage();
-  };
+
+
   _redirect = async () => {
     this.props.navigation.navigate('Sign')
   };
 
-  _buscarDadosDoStorage = async () => {
-    try {
-      const tokenDoStorage = await AsyncStorage.getItem('@opflix:token');
-      if (tokenDoStorage != null) {
-        this.setState({ token: tokenDoStorage });
-      }
-    } catch (error) {}
-  };
   _logout = async () => {
     await AsyncStorage.removeItem('@opflix:token');
     this._redirect();
+  };
+  componentDidMount() {
+    this._logout()
   }
 
 
   render() {
 
     return (
-      <View>
-        <ScrollView>
-
-          <View style={styles.banner}>
-            <Image style={styles.logo} source={logo}></Image>
-          </View>
-          <Text>{this.state.token}</Text>
-          <TouchableOpacity onPress={() => this._logout()}
-          ><Text>Logout</Text></TouchableOpacity>
-        </ScrollView>
+      <View style={[styles.container, styles.horizontal]}>
+        <ActivityIndicator size="large" color="#006b66" />
       </View>
+
     );
   }
 }
 
 const styles = StyleSheet.create({
-
-  logo: {
-    marginTop: 10,
-    marginLeft: 110,
+  container: {
+    flex: 1,
+    justifyContent: 'center'
   },
-  banner: {
-    backgroundColor: '#006b66'
+  horizontal: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    padding: 10
   },
   tabBarNavigatorIcon: {
     width: 30,
     height: 30,
     tintColor: 'white'
-  }
+  },
 });
 
 

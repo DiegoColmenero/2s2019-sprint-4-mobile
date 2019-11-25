@@ -7,7 +7,7 @@ import viuva from '../assets/img/banner-viuvanegra.png'
 import vikings from '../assets/img/banner-vikings.png'
 import opflix from '../assets/img/banner-opflix.png'
 import joker from '../assets/img/banner-joker.png'
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import Carousel from 'simple-carousel-react-native';
 import {
   SafeAreaView,
@@ -19,7 +19,7 @@ import {
   StatusBar,
   FlatList,
   Animated,
-  Dimensions, 
+  Dimensions,
 } from 'react-native';
 
 class Main extends Component {
@@ -41,81 +41,81 @@ class Main extends Component {
     this._carregarTitulos();
   }
 
-  
+
   _carregarTitulos = async () => {
     await fetch('http://192.168.3.201:5000/api/titulos')
       .then(resposta => resposta.json())
-      .then(data => this.setState({titulos: data}))
+      .then(data => this.setState({ titulos: data }))
       .catch(erro => console.warn(erro));
   };
 
-render() {
-  
+  render() {
 
 
-  return (
-    <View>
+
+    return (
+      <View>
         <ScrollView style={styles.corFundo}>
 
-      <View style={styles.banner}>
-      <Image style={styles.logo}source={logo}></Image>
-      </View>
-      <Carousel
-        showScroll={ false }
-        showBubbles={ false }
-        height={280}
-        width={420}>
-        <View>
-          <Image style={styles.imagensCarossel} source={banner}></Image>
-          <Text style={styles.slogan1}>Só na OpFlix você fica dentro de tudo sobre os próximos lançamentos, suas respectivas produtoras, categorias, quando e onde estão disponíveis, e muito mais!</Text>
-          <View style={styles.bolinhas}>
-            <Text style={styles.bolaSelecionada}>❶</Text>
-            <Text style={styles.bolaNaoSelecionada}> ❷ ❸ ❹</Text>
+          <View style={styles.banner}>
+            <Image style={styles.logo} source={logo}></Image>
           </View>
-        </View>
-        
-
-        <View>
-          <Image style={styles.imagensCarossel} source={vikings}></Image>
-          <Text style={styles.slogan}>A 6ª temporada de Vikings estará{"\n"}disponível dia 06/12 nos canais da History</Text>
-          <View style={styles.bolinhasVikings}>
-            <Text style={styles.bolaNaoSelecionada}>❶ </Text>
-            <Text style={styles.bolaSelecionada}>❷ </Text>
-            <Text style={styles.bolaNaoSelecionada}>❸ ❹</Text>
-          </View>
-        </View>
+          <Carousel
+            showScroll={false}
+            showBubbles={false}
+            height={280}
+            width={420}>
+            <View>
+              <Image style={styles.imagensCarossel} source={banner}></Image>
+              <Text style={styles.slogan1}>Só na OpFlix você fica dentro de tudo sobre os próximos lançamentos, suas respectivas produtoras, categorias, quando e onde estão disponíveis, e muito mais!</Text>
+              <View style={styles.bolinhas}>
+                <Text style={styles.bolaSelecionada}>❶</Text>
+                <Text style={styles.bolaNaoSelecionada}> ❷ ❸ ❹</Text>
+              </View>
+            </View>
 
 
-        <View>
-          <Image style={styles.imagensCarossel} source={viuva}></Image>
-          <Text style={styles.sloganviuva}>Viúva Negra{"\n"}vai aos cinemas em 2020</Text>
-          <View style={styles.bolinhasViuva}>
-            <Text style={styles.bolaNaoSelecionada}>❶ ❷ </Text>
-            <Text style={styles.bolaSelecionada}>❸ </Text>
-            <Text style={styles.bolaNaoSelecionada}>❹</Text>
-            
-          </View>
-        </View>
-        
+            <View>
+              <Image style={styles.imagensCarossel} source={vikings}></Image>
+              <Text style={styles.slogan}>A 6ª temporada de Vikings estará{"\n"}disponível dia 06/12 nos canais da History</Text>
+              <View style={styles.bolinhasVikings}>
+                <Text style={styles.bolaNaoSelecionada}>❶ </Text>
+                <Text style={styles.bolaSelecionada}>❷ </Text>
+                <Text style={styles.bolaNaoSelecionada}>❸ ❹</Text>
+              </View>
+            </View>
 
-        <View>
-          <Image style={styles.imagensCarossel} source={joker}></Image>
-          <Text style={styles.sloganjoker}>The Joker já está disponível nos cinemas</Text>
-          <View style={styles.bolinhasJoker}>
-            <Text style={styles.bolaNaoSelecionada}>❶ ❷ ❸ </Text>
-            <Text style={styles.bolaSelecionada}>❹</Text>
-          </View>
-        </View>
-      </Carousel>
-      {/* <Image style={styles.anuncio}source={banner}></Image>
+
+            <View>
+              <Image style={styles.imagensCarossel} source={viuva}></Image>
+              <Text style={styles.sloganviuva}>Viúva Negra{"\n"}vai aos cinemas em 2020</Text>
+              <View style={styles.bolinhasViuva}>
+                <Text style={styles.bolaNaoSelecionada}>❶ ❷ </Text>
+                <Text style={styles.bolaSelecionada}>❸ </Text>
+                <Text style={styles.bolaNaoSelecionada}>❹</Text>
+
+              </View>
+            </View>
+
+
+            <View>
+              <Image style={styles.imagensCarossel} source={joker}></Image>
+              <Text style={styles.sloganjoker}>The Joker já está disponível nos cinemas</Text>
+              <View style={styles.bolinhasJoker}>
+                <Text style={styles.bolaNaoSelecionada}>❶ ❷ ❸ </Text>
+                <Text style={styles.bolaSelecionada}>❹</Text>
+              </View>
+            </View>
+          </Carousel>
+          {/* <Image style={styles.anuncio}source={banner}></Image>
       <Text style={styles.slogan} >Com Opflix, {"\n"}o impossível vira possível</Text> */}
-      <Image style={styles.filminho}source={filminho}></Image>
-      <Text style={styles.informe}>Se informe acerca de{"\n"}dezenas de filmes</Text>
-      
-      </ScrollView>
-    </View>
-  );
-}
+          <Image style={styles.filminho} source={filminho}></Image>
+          <Text style={styles.informe}>Se informe acerca de{"\n"}dezenas de filmes</Text>
+
+        </ScrollView>
+      </View>
+    );
+  }
 
 }
 
@@ -156,8 +156,8 @@ const styles = StyleSheet.create({
     fontSize: 25,
   },
   tabBarNavigatorIcon: {
-    width: 30, 
-    height: 30, 
+    width: 30,
+    height: 30,
     tintColor: 'white'
   },
   logo: {

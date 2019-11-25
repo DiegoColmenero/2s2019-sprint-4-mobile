@@ -264,41 +264,41 @@ class Titulos extends Component {
                         </FlatList>
 
 
-                    <Text style={styles.tituloDaAreaDeBusca}>Busque o título que deseja filtrando por plataforma</Text>
-                    <ImageBackground source={fundoPlataformas} style={{ width: 420, height: 300 }}>
-                    </ImageBackground>
-                    <View style={{ display: 'flex', flexDirection: 'row', marginLeft: 50, marginTop: 20 }}>
+                        <Text style={styles.tituloDaAreaDeBusca}>Busque o título que deseja filtrando por plataforma</Text>
+                        <ImageBackground source={fundoPlataformas} style={{ width: 420, height: 300 }}>
+                        </ImageBackground>
+                        <View style={{ display: 'flex', flexDirection: 'row', marginLeft: 50, marginTop: 20 }}>
 
-                        <TextInput
-                            placeholder="Plataforma"
-                            onChangeText={plataforma => this.setState({ plataforma })}
-                            value={this.state.plataforma}
-                            style={{
-                                fontSize: 25,
-                                backgroundColor: 'rgba(207, 206, 206,0.8)',
-                                textAlign: 'center',
-                                borderBottomLeftRadius: 10,
-                                borderTopLeftRadius: 10,
-                                width: 250
-                            }}
+                            <TextInput
+                                placeholder="Plataforma"
+                                onChangeText={plataforma => this.setState({ plataforma })}
+                                value={this.state.plataforma}
+                                style={{
+                                    fontSize: 25,
+                                    backgroundColor: 'rgba(207, 206, 206,0.8)',
+                                    textAlign: 'center',
+                                    borderBottomLeftRadius: 10,
+                                    borderTopLeftRadius: 10,
+                                    width: 250
+                                }}
 
-                        />
-                        <TouchableOpacity
-                            onPress={this._trazerListaPoPlataforma}
-                            style={{
-                                backgroundColor: '#3EB35F',
-                                borderBottomRightRadius: 10,
-                                borderTopRightRadius: 10,
-                                height: 60,
-                                width: 70
-                            }}
+                            />
+                            <TouchableOpacity
+                                onPress={this._trazerListaPoPlataforma}
+                                style={{
+                                    backgroundColor: '#3EB35F',
+                                    borderBottomRightRadius: 10,
+                                    borderTopRightRadius: 10,
+                                    height: 60,
+                                    width: 70
+                                }}
 
-                        >
+                            >
 
-                            <Image style={{ width: 40, height: 40, marginLeft: 15, marginTop: 10, }} source={lupa}></Image>
-                        </TouchableOpacity>
-                    </View>
-                    <Text style={styles.cor}>{this.state.temValor2}</Text>
+                                <Image style={{ width: 40, height: 40, marginLeft: 15, marginTop: 10, }} source={lupa}></Image>
+                            </TouchableOpacity>
+                        </View>
+                        <Text style={styles.cor}>{this.state.temValor2}</Text>
 
 
 
@@ -352,7 +352,7 @@ const styles = StyleSheet.create({
         marginTop: 60,
     },
     cor: {
-        
+
         color: '#ff0000',
         textAlign: 'center',
         fontSize: 30,
@@ -372,34 +372,6 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
 
     },
-    // inputCategoria: {
-    //     fontSize: 25,
-    //     backgroundColor: 'rgba(207, 206, 206,0.8)',
-    //     textAlign: 'center',
-    //     marginBottom: -70,
-    //     width: '60%',
-    //     marginLeft: 80,
-    //     borderBottomLeftRadius: 10,
-    //     borderBottomRightRadius: 10,
-    //     borderTopLeftRadius: 10,
-    //     borderTopRightRadius: 10,
-    //     marginTop: 140,
-
-    // },
-    // inputPlataforma: {
-    //     fontSize: 25,
-    //     backgroundColor: 'rgba(207, 206, 206,0.8)',
-    //     textAlign: 'center',
-    //     marginBottom: -70,
-    //     width: '60%',
-    //     marginLeft: 80,
-    //     borderBottomLeftRadius: 10,
-    //     borderBottomRightRadius: 10,
-    //     borderTopLeftRadius: 10,
-    //     borderTopRightRadius: 10,
-    //     marginTop: 100,
-
-    // },
     logo: {
         marginTop: 10,
         marginLeft: 110,
