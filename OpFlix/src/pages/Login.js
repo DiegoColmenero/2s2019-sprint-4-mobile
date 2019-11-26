@@ -2,10 +2,12 @@ import React, { Component } from 'react';
 import logo from '../assets/img/opflix-logo-verde.png'
 import background from '../assets/img/fundo-login.jpg'
 import { Text, View, Image, TextInput, TouchableOpacity, AsyncStorage, StyleSheet, ImageBackground, KeyboardAvoidingView, } from 'react-native';
+import { ScrollView } from 'react-native-gesture-handler';
 
 class Login extends Component {
   static navigationOptions = {
     header: null,
+
   };
 
 
@@ -14,6 +16,7 @@ class Login extends Component {
     this.state = {
       email: 'erik@gmail.com',
       senha: '123456',
+      temValor: null,
     };
   }
   _redirect = async () => {
@@ -21,20 +24,47 @@ class Login extends Component {
   };
 
   _realizarLogin = async () => {
-    fetch('http://192.168.3.201:5000/api/login', {
-      method: 'POST',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        email: this.state.email,
-        senha: this.state.senha,
-      }),
-    })
-      .then(resposta => resposta.json())
-      .then(data => this._irParaHome(data.token))
-      .catch(erro => console.warn('Vish irmao, tomou exposed...' + erro));
+    if (this.state.email == '' || this.state.senha == '') {
+      this.setState({ temValor: 'Senha e Email não corespondem' })
+    } else {
+      this.setState({ temValor: '' })
+      fetch('http://192.168.3.201:5000/api/login', {
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email: this.state.email,
+          senha: this.state.senha,
+        }),
+      })
+        .then(resposta => {
+          if (resposta.status == 404) {
+            this.setState({ temValor: 'Senha e Email não corespondem' })
+          }
+          else {
+            resposta.json()
+            
+          }
+
+        })
+        .then(data => 
+          {
+
+          if (data.token == null) {
+            this.setState({ temValor: 'Senha e Email não corespondem' })
+          }
+
+          else {
+            this._irParaHome(data.token)
+          }
+        })
+        .catch(erro => {
+          console.warn('Vish irmao, tomou exposed...' + erro);
+
+        });
+    }
   };
 
   _irParaHome = async tokenRecebido => {
@@ -53,7 +83,7 @@ class Login extends Component {
         <View style={styles.banner}>
           <Image style={styles.logo} source={logo}></Image>
         </View>
-
+        <ScrollView></ScrollView>
         <ImageBackground source={background} style={{ width: '100%', height: '100%' }}>
 
           <KeyboardAvoidingView style={styles.container} behavior="padding" enabled>
@@ -75,6 +105,7 @@ class Login extends Component {
               <TouchableOpacity onPress={this._realizarLogin} style={styles.botao}>
                 <Text style={styles.botaoNome}>Login</Text>
               </TouchableOpacity>
+              <Text style={styles.cor}>{this.state.temValor}</Text>
               {/* <Text style={styles.textosCadastrese}>Não possui conta?</Text> */}
               {/* <TouchableOpacity onPress={this._redirect}>
 
@@ -88,6 +119,13 @@ class Login extends Component {
   }
 }
 const styles = StyleSheet.create({
+  cor: {
+
+    color: '#ff0000',
+    textAlign: 'center',
+    fontSize: 15,
+    marginTop: 10,
+  },
   textosCadastrese: {
     color: '#3EB35F',
     textAlign: 'center',

@@ -15,7 +15,8 @@ const MainNavigator = createBottomTabNavigator({
     Titulos: {
         screen: TitulosScreen,
     },
-    Profile: {
+    
+    Sair: {
         screen: ProfileScreen,
     },
     
@@ -23,12 +24,16 @@ const MainNavigator = createBottomTabNavigator({
     initialRouteName: 'Main',
     tabBarOptions: {
       showIcon: true,
-      showLabel: false,
+      showLabel: true,
       inactiveBackgroundColor: '#006b66',
       activeBackgroundColor: '#3EB35F',
+      labelStyle: {
+        color: '#fff'
+      },
+      
       style: {
         width: '100%',
-        height: 50,
+        height: 60,
       },
     },
   },);
