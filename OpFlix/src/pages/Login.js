@@ -14,8 +14,8 @@ class Login extends Component {
   constructor() {
     super();
     this.state = {
-      email: 'erik@gmail.com',
-      senha: '123456',
+      email: '',
+      senha: '',
       temValor: null,
     };
   }
@@ -43,14 +43,10 @@ class Login extends Component {
           if (resposta.status == 404) {
             this.setState({ temValor: 'Senha e Email não corespondem' })
           }
-          else {
-            resposta.json()
-            
-          }
 
+          return resposta.json()
         })
-        .then(data => 
-          {
+        .then(data => {
 
           if (data.token == null) {
             this.setState({ temValor: 'Senha e Email não corespondem' })

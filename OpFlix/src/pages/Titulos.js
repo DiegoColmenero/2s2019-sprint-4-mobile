@@ -106,7 +106,7 @@ class Titulos extends Component {
     }
     render() {
         return (
-            <View>
+            <View style={{backgroundColor: '#fff'}}>
                 <ScrollView>
                     <View style={styles.banner}>
                         <Image style={styles.logo} source={logo}></Image>
@@ -125,44 +125,40 @@ class Titulos extends Component {
                         data={this.state.titulos}
                         keyExtractor={item => item.idTitulo}
                         renderItem={({ item }) => (
-                            <View>
-                                <View style={styles.nome}>
-                                    <Text style={styles.tituloNome}>Nome:</Text>
-                                    <Text style={styles.dadoNome}> {item.nome}</Text>
-                                </View>
-                                <View style={styles.sinopse}>
-                                    <Text style={styles.tituloNome}>Sinópse:</Text>
-                                    <Text style={styles.dadoSinopse}> {item.sinopse}</Text>
-                                </View>
-                                <View style={styles.nome}>
-                                    <Text style={styles.tituloNome}>Duração(horas):</Text>
-                                    <Text style={styles.dadoNome}> {item.duracao}</Text>
-                                </View>
-                                <View style={styles.nome}>
-                                    <Text style={styles.tituloNome}>Data de Lançamento:</Text>
-                                    <Text style={styles.dadoNome}> {this._converterData(item.dataLancamento)}</Text>
-                                </View>
-                                <View style={styles.nome}>
-                                    <Text style={styles.tituloNome}>Classificação:</Text>
-                                    <Text style={styles.dadoNome}> {item.classificacao}</Text>
-                                </View>
-                                <View style={styles.nome}>
-                                    <Text style={styles.tituloNome}>Categoria:</Text>
-                                    <Text style={styles.dadoNome}> {item.nomeCategoria}</Text>
-                                </View>
-                                <View style={styles.nome}>
-                                    <Text style={styles.tituloNome}>Plataforma:</Text>
-                                    <Text style={styles.dadoNome}> {item.nomePlataforma}</Text>
-                                </View>
-                                <View style={styles.nome}>
-                                    <Text style={styles.tituloNome}>Produtora:</Text>
-                                    <Text style={styles.dadoNome}> {item.nomeProdutora}</Text>
-                                </View>
-                                <View style={styles.nome}>
-                                    <Text style={styles.tituloNome}>Tipo:</Text>
-                                    <Text style={styles.dadoNome}> {item.nomeTipoTitulo}</Text>
-                                </View>
-                                <Text style={styles.divisoria}>__________________</Text>
+                            <View style={{display: 'flex', flexDirection: 'column', backgroundColor: 'rgba(0, 107, 102,0.2)'}}>
+                               
+                                    
+                                    <Text style={styles.dadoNomee}>   {item.nome}</Text>
+                                
+                                
+                                    
+                                    <Text style={styles.dadoSinopse}>{item.sinopse}</Text>
+                                
+                                
+                                    
+                                    <Text style={styles.dadoNome}>{item.duracao} horas</Text>
+                                
+                                
+                                    
+                                    <Text style={styles.dadoNome}>{this._converterData(item.dataLancamento)}</Text>
+                                
+                                
+                                    
+                                    <Text style={styles.dadoNome}>{item.classificacao}</Text>
+                                
+                                    
+                                    <Text style={styles.dadoNome}>{item.nomeCategoria}</Text>
+                                
+                                    
+                                    <Text style={styles.dadoNome}>{item.nomePlataforma}</Text>
+                                
+                                    
+                                    <Text style={styles.dadoNome}>{item.nomeProdutora}</Text>
+                                
+                                    
+                                    <Text style={styles.dadoNome}>{item.nomeTipoTitulo}</Text>
+                                
+                                
                             </View>
                         )}
                     />
@@ -182,7 +178,6 @@ class Titulos extends Component {
                         renderItem={({ item }) => (
                             <View>
                                 <Text style={styles.categorias}>{item.categoria}</Text>
-                                <Text style={styles.divisoria1}>______________________________</Text>
                             </View>
                         )}
                     />
@@ -202,14 +197,11 @@ class Titulos extends Component {
                         renderItem={({ item }) => (
                             <View>
                                 <Text style={styles.categorias}>{item.plataforma}</Text>
-                                <Text style={styles.divisoria1}>______________________________</Text>
                             </View>
                         )}
                     />
 
                     <Text style={styles.tituloDaAreaDeBusca}>Busque o título que deseja filtrando por catrgoria</Text>
-                    <ImageBackground source={fundoCategorias} style={{ width: 420, height: 300 }}>
-                    </ImageBackground>
                     <View style={{ display: 'flex', flexDirection: 'row', marginLeft: 50, marginTop: 20 }}>
 
                         <TextInput
@@ -254,7 +246,6 @@ class Titulos extends Component {
 
 
                                     <Text style={styles.tituloNome2}> {item.nome}</Text>
-                                    <Text style={styles.divisoria}>__________________</Text>
 
                                 </View>
                             )
@@ -265,8 +256,6 @@ class Titulos extends Component {
 
 
                         <Text style={styles.tituloDaAreaDeBusca}>Busque o título que deseja filtrando por plataforma</Text>
-                        <ImageBackground source={fundoPlataformas} style={{ width: 420, height: 300 }}>
-                        </ImageBackground>
                         <View style={{ display: 'flex', flexDirection: 'row', marginLeft: 50, marginTop: 20 }}>
 
                             <TextInput
@@ -313,7 +302,6 @@ class Titulos extends Component {
 
 
                                         <Text style={styles.tituloNome2}> {item.nome}</Text>
-                                        <Text style={styles.divisoria}>__________________</Text>
 
                                     </View>
                                 )
@@ -344,8 +332,6 @@ const styles = StyleSheet.create({
         marginTop: 30,
         color: '#000',
         backgroundColor: '#3EB35F',
-        borderTopLeftRadius: 10,
-        borderTopRightRadius: 10,
 
     },
     ajeitar: {
@@ -363,6 +349,7 @@ const styles = StyleSheet.create({
         color: '#006b66',
         fontSize: 15,
         textAlign: 'center',
+        backgroundColor: 'rgba(0, 107, 102,0.2)'
     },
     titulo: {
         color: '#006b66',
@@ -374,7 +361,7 @@ const styles = StyleSheet.create({
     },
     logo: {
         marginTop: 10,
-        marginLeft: 110,
+        alignSelf: 'center'
     },
     banner: {
         backgroundColor: '#006b66'
@@ -408,17 +395,32 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         marginTop: 20,
         fontWeight: 'bold',
+        backgroundColor: 'rgba(0, 107, 102,0.2)'
     },
-    dadoNome: {
+    dadoNomee: {
         fontSize: 25,
         color: '#3EB35F',
+        backgroundColor: '#006b66',
+        borderBottomLeftRadius: 5,
+        borderBottomRightRadius: 5,
+        borderTopLeftRadius: 5,
+        borderTopRightRadius: 5,
+        textAlign: 'center',
+    },
+    dadoNome: {
+        fontSize: 20,
+        color: '#006b66',
+        marginLeft: 10,
+        marginTop: 5
     },
     dadoSinopse: {
-        color: '#3EB35F',
+        color: '#006b66',
         fontSize: 20,
+        marginLeft: 10,
+        marginTop: 5,
     },
     botaoFundo: {
-        marginTop: 70,
+        marginTop: 30,
         backgroundColor: "#3EB35F",
         marginLeft: 80,
         width: '60%',
@@ -426,7 +428,8 @@ const styles = StyleSheet.create({
         borderBottomRightRadius: 10,
         borderTopLeftRadius: 10,
         borderTopRightRadius: 10,
-        marginBottom: 70,
+        marginBottom: 20,
+
     },
     botaoFundoCategoria: {
         marginTop: 70,
@@ -461,7 +464,7 @@ const styles = StyleSheet.create({
     },
     tituloBotao: {
         fontSize: 40,
-        color: '#FFF',
+        color: '#000',
         textAlign: 'center',
         paddingLeft: 5,
         paddingRight: 5,
